@@ -1,9 +1,10 @@
 import './App.css'
+import Editor from './Pages/Editor';
 
 function App() {
 
   return (
- <>Izhar</>
+    <Editor />
   )
 }
 
