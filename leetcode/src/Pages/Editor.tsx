@@ -1,51 +1,19 @@
+/*React imports */
 import { useState } from 'react';
-
-import DOMPurify from 'isomorphic-dompurify';
-import Markdown from 'react-markdown';
+/*Npm imports */
 import remarkGfm from 'remark-gfm';
+/*Ace imports */
+import '../Imports/AceBuildImports'
+import  AceEditor from "react-ace";
+/*Constants import */
+import languages from '../Constants/Languages';
+import themes from '../Constants/Themes'
+import sizes from '../Constants/Sizes'
+import Markdown from 'react-markdown';
 
-import { render } from "react-dom";
-
-import 'ace-builds/src-noconflict/ace';
-import AceEditor from "react-ace";
-
-import "ace-builds/src-noconflict/mode-java";
-import "ace-builds/src-noconflict/mode-python";
-import "ace-builds/src-noconflict/mode-ruby";
-import "ace-builds/src-noconflict/mode-javascript";
-import "ace-builds/src-noconflict/mode-golang";
-import "ace-builds/src-noconflict/mode-typescript";
-
-import "ace-builds/src-noconflict/theme-tomorrow_night";
-import "ace-builds/src-noconflict/theme-monokai";
-import "ace-builds/src-noconflict/theme-twilight";
-import "ace-builds/src-noconflict/theme-xcode";
-import "ace-builds/src-noconflict/theme-terminal";
-import "ace-builds/src-noconflict/theme-solarized_dark";
-import "ace-builds/src-noconflict/theme-solarized_light";
-
-import "ace-builds/src-noconflict/ext-language_tools"
-
-function Editor() {
-    const markdown = `
- ## Problem Description
-You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
-
-You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+function Editor({cleanMarkDown}) {
 
 
-
-![Linked List Addition](https://assets.leetcode.com/uploads/2020/10/02/addtwonumber1.jpg)
-## Example
-
-Let's say we have two linked lists:-
-- 'l1': 2 -> 4 -> 3 (represents the number 342),
-- 'l2': 5 -> 6 -> 4 (represents the number 465)
-
-Adding these numbers should give us:
-- Result: 7 -> 0 -> 8 (represents the number 807)
-`
-    const cleanMarkDown = DOMPurify.sanitize(markdown);
 
     const [IsDragging, setIsDragging] = useState(false);
     const [DraggingVertical, setDraggingVertical] = useState(false);
@@ -59,44 +27,15 @@ Adding these numbers should give us:
     const [themeName, setTheme] = useState('twilight');
     const [fontSize, setFontSize] = useState(20);
 
-    const languages = [
-        { name: 'javaScript', Value: 'javascript' },
-        { name: 'java', Value: 'java' },
-        { name: 'python', Value: 'python' },
-        { name: 'ruby', Value: 'ruby' },
-        { name: 'golang', Value: 'golang' },
-        { name: 'typescript', Value: 'typescript' },
-    ]
-
-    const themes = [
-        { name: 'tomorrow_night', Value: 'tomorrow_night' },
-        { name: 'monokai', Value: 'monokai' },
-        { name: 'twilight', Value: 'twilight' },
-        { name: 'xcode', Value: 'xcode' },
-        { name: 'terminal', Value: 'terminal' },
-        { name: 'solarized_dark', Value: 'solarized_dark' },
-        { name: 'solarized_light', Value: 'solarized_light' },
-    ]
-
-    const sizes = [
-        { name: 14, Value: 14 },
-        { name: 16, Value: 16 },
-        { name: 18, Value: 18 },
-        { name: 20, Value: 20 },
-        { name: 24, Value: 24 },
-        { name: 28, Value: 28 },
-        { name: 32, Value: 32 },
-        { name: 40, Value: 40 },
-    ]
 
 
-    const handleMouseDown = (e: any) => {
+    const handleMouseDown = (e) => {
         console.log(e);
         e.preventDefault();
         setIsDragging(true);
     }
 
-    const handleMouseUp = (e: any) => {
+    const handleMouseUp = () => {
         if (IsDragging) {
             setIsDragging(false);
         }
