@@ -1,5 +1,5 @@
 /*React imports */
-import { useState } from 'react';
+import React , { useState } from 'react'; 
 /*Npm imports */
 import remarkGfm from 'remark-gfm';
 /*Ace imports */
@@ -11,9 +11,26 @@ import themes from '../Constants/Themes'
 import sizes from '../Constants/Sizes'
 import Markdown from 'react-markdown';
 
-function Editor({cleanMarkDown}) {
+interface editorProps {
+    cleanMarkDown : string;
+}
 
+type languageStyle = {
+    name : string
+    Value : string
+}
 
+type themeStyle = {
+    name : string
+    Value : string
+}
+
+type sizeStyle = {
+    name : number
+    Value : number
+}
+
+function Editor({cleanMarkDown } : editorProps) {
 
     const [IsDragging, setIsDragging] = useState(false);
     const [DraggingVertical, setDraggingVertical] = useState(false);
@@ -29,7 +46,7 @@ function Editor({cleanMarkDown}) {
 
 
 
-    const handleMouseDown = (e) => {
+    const handleMouseDown = (e :  React.MouseEvent<HTMLDivElement>) => {
         console.log(e);
         e.preventDefault();
         setIsDragging(true);
@@ -45,12 +62,12 @@ function Editor({cleanMarkDown}) {
         }
     }
 
-    const handleMouseUpDown = (e: any) => {
+    const handleMouseUpDown = (e :  React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
         setDraggingVertical(true);
     }
 
-    const dragMouseChange = (e) => {
+    const dragMouseChange = (e : React.MouseEvent) => {
 
         if (IsDragging) {
             const newLeftWidth = (e.clientX / window.innerWidth) * 100;
@@ -75,17 +92,17 @@ function Editor({cleanMarkDown}) {
         }
     }
 
-    const handleThemeChange = (e) => {
+    const handleThemeChange = (e :  React.ChangeEvent<HTMLSelectElement>) => {
         e.preventDefault();
         setTheme(e.target.value);
     }
 
-    const handleLanguage = (e) => {
+    const handleLanguage = (e :  React.ChangeEvent<HTMLSelectElement>) => {
         e.preventDefault();
         setLanguage(e.target.value);
     }
 
-    const handleSize = (e) => {
+    const handleSize = (e :  React.ChangeEvent<HTMLSelectElement>) => {
         e.preventDefault();
         setFontSize(parseInt(e.target.value, 10))
     }
@@ -111,7 +128,7 @@ function Editor({cleanMarkDown}) {
                     <div>
                         <select className="select select-info w-32 rounded-lg select-sm " onChange={handleLanguage}>
                             {
-                                languages.map(lang => {
+                                languages.map((lang : languageStyle) => {
                                     return <option value={lang.Value} > {lang.name}</option>
                                 })
                             }
@@ -121,7 +138,7 @@ function Editor({cleanMarkDown}) {
                     <div>
                         <select className="select select-info w-36 rounded-lg select-sm " onChange={handleThemeChange} >
                             {
-                                themes.map(theme => {
+                                themes.map((theme : themeStyle) => {
                                     return <option value={theme.Value} > {theme.name}</option>
                                 })
                             }
@@ -131,7 +148,7 @@ function Editor({cleanMarkDown}) {
                     <div>
                         <select className="select select-info w-32 rounded-lg select-sm " onChange={handleSize}>
                             {
-                                sizes.map(size => {
+                                sizes.map((size : sizeStyle) => {
                                     return <option value={size.Value} > {size.name}</option>
                                 })
                             }
