@@ -139,7 +139,7 @@ console.log(themes);
                 < div className='flex flex-row-reverse gap-4 my-1'>
 
                 <div>
-                        <select className="select select-info w-32 rounded-lg select-sm " onChange={handleLanguage}>
+                        <select className="select select-bordered w-32 rounded-lg select-sm " onChange={handleLanguage}>
                             {
                                 languages.map(lang => {
                                     return <option value={lang.Value} > {lang.name}</option>
@@ -149,7 +149,7 @@ console.log(themes);
                     </div>
 
                     <div>
-                        <select className="select select-info w-36 rounded-lg select-sm " onChange={handleThemeChange} >
+                        <select className="select select-bordered w-36 rounded-lg select-sm " onChange={handleThemeChange} >
                             {
                                 themes.map(theme => {
                                     return <option value={theme.Value} > {theme.name}</option>
@@ -159,7 +159,7 @@ console.log(themes);
                     </div>
 
                     <div>
-                        <select className="select select-info w-32 rounded-lg select-sm " onChange={handleSize}>
+                        <select className="select select-bordered w-32 rounded-lg select-sm " onChange={handleSize}>
                             {
                                 sizes.map(size => {
                                     return <option value={size.Value} > {size.name}</option>

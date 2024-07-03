@@ -12,7 +12,7 @@ export default {
     require('tailwind-scrollbar-hide')
   ],
   daisyui : {
-    themes : ['black']
+    themes : ['black','forest' , 'light']
   }
 }
 
