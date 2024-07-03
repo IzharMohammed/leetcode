@@ -1,51 +1,38 @@
 /*React imports */
-import React , { useState } from 'react'; 
+import React, { useState } from 'react';
 /*Npm imports */
 import remarkGfm from 'remark-gfm';
 /*Ace imports */
 import '../Imports/AceBuildImports'
-import  AceEditor from "react-ace";
+import AceEditor from "react-ace";
 /*Constants import */
 import languages from '../Constants/Languages';
 import themes from '../Constants/Themes'
 import sizes from '../Constants/Sizes'
 import Markdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
-import DOMPurify from 'isomorphic-dompurify';
+import Layout from '../Layout/Layout';
+
 interface editorProps {
-    cleanMarkDown : string;
+    cleanMarkDown: string;
 }
 
 type languageStyle = {
-    name : string
-    Value : string
+    name: string
+    Value: string
 }
 
 type themeStyle = {
-    name : string
-    Value : string
+    name: string
+    Value: string
 }
 
 type sizeStyle = {
-    name : number
-    Value : number
+    name: number
+    Value: number
 }
 
-function Editor({cleanMarkDown} : editorProps) {
-/*     const markdown = `
- ## Problem Description
-You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
-You may assume the two numbers do not contain any leading zero, except the number 0 itself.
-![Linked List Addition](https://assets.leetcode.com/uploads/2020/10/02/addtwonumber1.jpg)
-## Example
-Let's say we have two linked lists:-
-- 'l1': 2 -> 4 -> 3 (represents the number 342),
-- 'l2': 5 -> 6 -> 4 (represents the number 465)
-Adding these numbers should give us:
-- Result: 7 -> 0 -> 8 (represents the number 807)
-`
-    const cleanMarkDown = DOMPurify.sanitize(markdown); */
-
+function Editor({ cleanMarkDown }: editorProps) {
 
     const [IsDragging, setIsDragging] = useState(false);
     const [DraggingVertical, setDraggingVertical] = useState(false);
@@ -54,14 +41,16 @@ Adding these numbers should give us:
     const [upHeight, setUpHeight] = useState(70);
     const [downHeight, setDownHeight] = useState(30);
     const [editorLeft, setEditorLeft] = useState(650);
+    const [tab, setTab] = useState('Description');
 
     const [language, setLanguage] = useState('javascript');
     const [themeName, setTheme] = useState('twilight');
     const [fontSize, setFontSize] = useState(20);
 
+console.log(themes);
 
 
-    const handleMouseDown = (e :  React.MouseEvent<HTMLDivElement>) => {
+    const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
         console.log(e);
         e.preventDefault();
         setIsDragging(true);
@@ -77,12 +66,12 @@ Adding these numbers should give us:
         }
     }
 
-    const handleMouseUpDown = (e :  React.MouseEvent<HTMLDivElement>) => {
+    const handleMouseUpDown = (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
         setDraggingVertical(true);
     }
 
-    const dragMouseChange = (e : React.MouseEvent) => {
+    const dragMouseChange = (e: React.MouseEvent) => {
 
         if (IsDragging) {
             const newLeftWidth = (e.clientX / window.innerWidth) * 100;
@@ -107,31 +96,40 @@ Adding these numbers should give us:
         }
     }
 
-    const handleThemeChange = (e :  React.ChangeEvent<HTMLSelectElement>) => {
+    const handleThemeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         e.preventDefault();
         setTheme(e.target.value);
     }
 
-    const handleLanguage = (e :  React.ChangeEvent<HTMLSelectElement>) => {
+    const handleLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
         e.preventDefault();
         setLanguage(e.target.value);
     }
 
-    const handleSize = (e :  React.ChangeEvent<HTMLSelectElement>) => {
+    const handleSize = (e: React.ChangeEvent<HTMLSelectElement>) => {
         e.preventDefault();
         setFontSize(parseInt(e.target.value, 10))
     }
 
     return (
-        <div className='flex  h-[100vh] ' onMouseUp={handleMouseUp} onMouseMove={dragMouseChange}>
+      <Layout>
+          <div className='flex  h-[90vh] ' onMouseUp={handleMouseUp} onMouseMove={dragMouseChange}>
             <div className='' style={{ width: `${IsLeftWidth}%` }}>
-                <div className='flex gap-2'>
-                    <div className='btn btn-ghost'>Description</div>
-                    <div className='btn btn-ghost'>Solution</div>
-                    <div className='btn btn-ghost'>Submissions</div>
+                <div className='flex gap-2 border border-white'>
+                    <div className='btn btn-ghost' onClick={() => setTab('Description')}>Description</div>
+                    <div className='btn btn-ghost' onClick={() => setTab('solution')}>Solution</div>
+                    <div className='btn btn-ghost' onClick={() => setTab('submissions')}>Submissions</div>
                 </div>
-                <div className=' border border-white  px-4' >
-                    <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}  className='scrollbar-hide overflow-y-auto h-[90vh]' >{cleanMarkDown}</Markdown>
+                <div className='  px-4' >
+                    {
+                        tab === "Description" && <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]} className='scrollbar-hide overflow-y-auto h-[83vh]' >{cleanMarkDown}</Markdown>
+                    }
+                    {
+                        tab === 'solution' && <div>solutions</div>
+                    }
+                    {
+                        tab === 'submissions' && <div>submission tab</div>
+                    }
                 </div>
             </div>
             <div className='border border-white w-2 cursor-col-resize' onMouseDown={handleMouseDown} ></div>
@@ -140,10 +138,10 @@ Adding these numbers should give us:
 
                 < div className='flex flex-row-reverse gap-4 my-1'>
 
-                    <div>
+                <div>
                         <select className="select select-info w-32 rounded-lg select-sm " onChange={handleLanguage}>
                             {
-                                languages.map((lang : languageStyle) => {
+                                languages.map(lang => {
                                     return <option value={lang.Value} > {lang.name}</option>
                                 })
                             }
@@ -153,7 +151,7 @@ Adding these numbers should give us:
                     <div>
                         <select className="select select-info w-36 rounded-lg select-sm " onChange={handleThemeChange} >
                             {
-                                themes.map((theme : themeStyle) => {
+                                themes.map(theme => {
                                     return <option value={theme.Value} > {theme.name}</option>
                                 })
                             }
@@ -163,7 +161,7 @@ Adding these numbers should give us:
                     <div>
                         <select className="select select-info w-32 rounded-lg select-sm " onChange={handleSize}>
                             {
-                                sizes.map((size : sizeStyle) => {
+                                sizes.map(size => {
                                     return <option value={size.Value} > {size.name}</option>
                                 })
                             }
@@ -205,6 +203,7 @@ Adding these numbers should give us:
                 </div>
             </div>
         </div >
+      </Layout>
     )
 }
 

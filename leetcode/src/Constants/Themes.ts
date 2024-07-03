@@ -1,8 +1,9 @@
 export default  [
-    { name: 'javaScript', Value: 'javascript' },
-    { name: 'java', Value: 'java' },
-    { name: 'python', Value: 'python' },
-    { name: 'ruby', Value: 'ruby' },
-    { name: 'golang', Value: 'golang' },
-    { name: 'typescript', Value: 'typescript' },
+    { name: 'tomorrow_night', Value: 'tomorrow_night' },
+    { name: 'monokai', Value: 'monokai' },
+    { name: 'twilight', Value: 'twilight' },
+    { name: 'xcode', Value: 'xcode' },
+    { name: 'terminal', Value: 'terminal' },
+    { name: 'solarized_dark', Value: 'solarized_dark' },
+    { name: 'solarized_light', Value: 'solarized_light' },
 ]
