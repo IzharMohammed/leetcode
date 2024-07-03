@@ -10,7 +10,8 @@ import languages from '../Constants/Languages';
 import themes from '../Constants/Themes'
 import sizes from '../Constants/Sizes'
 import Markdown from 'react-markdown';
-
+import rehypeRaw from 'rehype-raw';
+import DOMPurify from 'isomorphic-dompurify';
 interface editorProps {
     cleanMarkDown : string;
 }
@@ -30,7 +31,21 @@ type sizeStyle = {
     Value : number
 }
 
-function Editor({cleanMarkDown } : editorProps) {
+function Editor({cleanMarkDown} : editorProps) {
+/*     const markdown = `
+ ## Problem Description
+You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+![Linked List Addition](https://assets.leetcode.com/uploads/2020/10/02/addtwonumber1.jpg)
+## Example
+Let's say we have two linked lists:-
+- 'l1': 2 -> 4 -> 3 (represents the number 342),
+- 'l2': 5 -> 6 -> 4 (represents the number 465)
+Adding these numbers should give us:
+- Result: 7 -> 0 -> 8 (represents the number 807)
+`
+    const cleanMarkDown = DOMPurify.sanitize(markdown); */
+
 
     const [IsDragging, setIsDragging] = useState(false);
     const [DraggingVertical, setDraggingVertical] = useState(false);
@@ -109,14 +124,14 @@ function Editor({cleanMarkDown } : editorProps) {
 
     return (
         <div className='flex  h-[100vh] ' onMouseUp={handleMouseUp} onMouseMove={dragMouseChange}>
-            <div className=' p-4' style={{ width: `${IsLeftWidth}%` }}>
+            <div className='' style={{ width: `${IsLeftWidth}%` }}>
                 <div className='flex gap-2'>
                     <div className='btn btn-ghost'>Description</div>
                     <div className='btn btn-ghost'>Solution</div>
                     <div className='btn btn-ghost'>Submissions</div>
                 </div>
-                <div >
-                    <Markdown remarkPlugins={[remarkGfm]}>{cleanMarkDown}</Markdown>
+                <div className=' border border-white  px-4' >
+                    <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}  className='scrollbar-hide overflow-y-auto h-[90vh]' >{cleanMarkDown}</Markdown>
                 </div>
             </div>
             <div className='border border-white w-2 cursor-col-resize' onMouseDown={handleMouseDown} ></div>

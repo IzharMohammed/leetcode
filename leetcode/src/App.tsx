@@ -9,7 +9,14 @@ import DOMPurify from 'isomorphic-dompurify';
 
 function App() {
 
-  const cleanMarkDown = DOMPurify.sanitize(problems.problemList);
+  const markdown = problems.prob1;
+
+  const normalizedImportedMarkdown = markdown
+    .split('\n')
+    .map(line => line.trim() )
+    .join('\n');
+
+  const cleanMarkDown = DOMPurify.sanitize(normalizedImportedMarkdown);
 
   return (
     <Editor cleanMarkDown={cleanMarkDown} />
